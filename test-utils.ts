@@ -31,7 +31,7 @@ export const getTodoSchemaIntrospection = (): GetTodoSchemaIntrospectionResult =
         input TodoInputType {
             name: String!
             completed: Boolean
-            color: Color
+            color: Color=RED
         }
 
         enum Color {
@@ -45,6 +45,7 @@ export const getTodoSchemaIntrospection = (): GetTodoSchemaIntrospectionResult =
             todo(
                 "todo identifier"
                 id: String!
+                isCompleted: Boolean=false
             ): Todo!
             todos: [Todo!]!
         }
@@ -74,7 +75,8 @@ export const todoSchemaAsJsonSchema: JSONSchema6 = {
                         arguments: {
                             type: 'object',
                             properties: {
-                                id: { type: 'string', description: "todo identifier" }
+                                id: { type: 'string', description: "todo identifier" },
+                                isCompleted: { type: 'boolean', default: false }
                             },
                             required: ['id']
                         },
@@ -179,7 +181,7 @@ export const todoSchemaAsJsonSchema: JSONSchema6 = {
             properties: {
                 name: { type: 'string' },
                 completed: { type: 'boolean' },
-                color: { $ref: '#/definitions/Color' },
+                color: { default: 'RED', $ref: '#/definitions/Color' },
             },
             required: ['name']
         }
