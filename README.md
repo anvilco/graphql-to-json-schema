@@ -40,7 +40,7 @@ type Todo {
 input TodoInputType {
     name: String!
     completed: Boolean
-    color: Color
+    color: Color=RED
 }
 
 enum Color {
@@ -51,7 +51,7 @@ enum Color {
 }
 
 type Query {
-    todo(id: String!): Todo
+    todo(id: String!, isCompleted: Boolean=false): Todo
     todos: [Todo]
 }
 
@@ -76,7 +76,11 @@ type Mutation {
                         arguments: {
                             type: 'object',
                             properties: {
-                                id: { type: 'string' }
+                                id: { type: 'string' },
+                                isCompleted: {
+                                    type: 'boolean',
+                                    default: false
+                                }
                             },
                             required: ['id']
                         },
@@ -176,7 +180,7 @@ type Mutation {
             properties: {
                 name: { type: 'string' },
                 completed: { type: 'boolean' },
-                color: { $ref: '#/definitions/Color' },
+                color: { default: 'RED', $ref: '#/definitions/Color' },
             },
             required: ['name']
         }
